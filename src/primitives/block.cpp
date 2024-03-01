@@ -1,0 +1,85 @@
+// Copyright (c) 2009-2010 Satoshi Nakamoto
+// Copyright (c) 2009-2017 The Bitcoin Core developers
+// Copyright (c) 2018-2020 The Sugarchain Yumekawa developers
+// Copyright (c) 2024 The Shugacoin Azula developers
+
+#include <primitives/block.h>
+
+#include <hash.h>
+#include <tinyformat.h>
+#include <utilstrencodings.h>
+#include <crypto/common.h>
+
+// yespower
+#include <crypto/yespower-1.0.1/yespower.h>
+#include <streams.h>
+#include <version.h>
+
+// yespower exit()
+#include <stdlib.h>
+
+// yespower PoW cache
+#include <sync.h>
+
+uint256 CBlockHeaderUncached::GetHash() const
+{
+    return SerializeHash(*this);
+}
+
+// yespowerUncached
+uint256 CBlockHeaderUncached::GetPoWHash() const
+{
+    static const yespower_params_t yespower_1_0_shugacoin = {
+        .version = YESPOWER_1_0,
+        .N = 2048,
+        .r = 32,
+        .pers = (const uint8_t *)"Satoshi Nakamoto 31/Oct/2008 Proof-of-work is essentially one-CPU-one-vote",
+        .perslen = 74
+    };
+    uint256 hash;
+    CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+    ss << *this;
+    if (yespower_tls((const uint8_t *)&ss[0], ss.size(), &yespower_1_0_shugacoin, (yespower_binary_t *)&hash)) {
+        fprintf(stderr, "Error: CBlockHeaderUncached::GetPoWHash(): failed to compute PoW hash (out of memory?)\n");
+        exit(1);
+    }
+    return hash;
+}
+
+// yespower_cached
+uint256 CBlockHeader::GetPoWHash_cached() const
+{
+    uint256 block_hash = GetHash();
+    LOCK(cache_lock);
+    if (cache_init) {
+        if (block_hash != cache_block_hash) {
+            fprintf(stderr, "Error: CBlockHeader::GetPoWHash_cached(): block hash changed unexpectedly\n");
+            exit(1);
+        }
+        // yespower PoW cache: log // O (cyan) = HIT
+        // printf("\033[36;1mO\033[0m block = %s PoW = %s\n", cache_block_hash.ToString().c_str(), cache_PoW_hash.ToString().c_str());
+    } else {
+        cache_PoW_hash = GetPoWHash();
+        cache_block_hash = block_hash;
+        cache_init = true;
+        // yespower PoW cache: log // x = MISS
+        // printf("x block = %s PoW = %s\n", cache_block_hash.ToString().c_str(), cache_PoW_hash.ToString().c_str());
+    }
+    return cache_PoW_hash;
+}
+
+std::string CBlock::ToString() const
+{
+    std::stringstream s;
+    s << strprintf("CBlock(hash=%s, ver=0x%08x, hashPrevBlock=%s, hashMerkleRoot=%s, nTime=%u, nBits=%08x, nNonce=%u, vtx=%u)\n",
+        GetHash().ToString(),
+        nVersion,
+        hashPrevBlock.ToString(),
+        hashMerkleRoot.ToString(),
+        nTime, nBits, nNonce,
+        vtx.size());
+    for (const auto& tx : vtx) {
+        s << "  " << tx->ToString() << "\n";
+    }
+    return s.str();
+}

@@ -1,0 +1,32 @@
+[
+    [
+        "L4PQk1eb1ruSJpsJhTqnC5B8wL4SYFJdWkME397Wf37iCrT2CM4e", 
+        "d5d9f8976c3695c33d77211b1f9786d4f371f657585d962dd3ed1e8b4ffd0245", 
+        {
+            "isCompressed": true, 
+            "isPrivkey": true, 
+            "isTestnet": false,
+            "chain": "main"
+        }
+    ],
+    [
+        "cMg62d5EnbFRNGoQKKeGnwusyiqTizwpXAJXCwEZgX1ijtJRTCpg", 
+        "02c54c247492825802ce44c477b324e7918d9cc06beba7394ad28bdf5eaa2837", 
+        {
+            "isCompressed": true, 
+            "isPrivkey": true, 
+            "isTestnet": true,
+            "chain": "test"
+        }
+    ],
+    [
+        "93P5r4s2CXEEWTyju9iycdrH5wjyhYzLxgrp4JC79admdxqNHSc", 
+        "ec861935bc0faa7c3b7de272a8682bb8f14fafbea5edb8025b9b10c90a7a2041", 
+        {
+            "isCompressed": false, 
+            "isPrivkey": true, 
+            "isTestnet": true,
+            "chain": "regtest"
+        }
+    ]
+]
