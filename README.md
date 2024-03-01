@@ -5,15 +5,6 @@ Shugacoin Azula
 
 https://shugacoin.org
 
-
-The Meaning of Azula
------------------------
-Shugacoin's first node software is called `Azula (夢川)`. It can be translated in some ways.
-- "Yume (夢)" means dream and "Kawa (川)" means river. So its `Dream River` in japanese.
-- The second letter "Kawa" stands for "Kawaii (可愛い)". In this case the meaning is `Dreamy Cute`.
-- Also Azula is replaces the word `Core` (ie: Bitcoin Core). We think it sounds a bit centralized.
-
-
 License
 -------
 Shugacoin Azula is released under the terms of the MIT license. See [COPYING](COPYING) for more
@@ -29,7 +20,7 @@ information or see https://opensource.org/licenses/MIT.
 Minimum Requirement
 -------------------
 - CPU: 1 Core
-- RAM: 2048 MB (at least 3 GB [swap](https://github.com/shugacoin-project/doc/blob/master/swap.md))
+- RAM: 2048 MB (at least 3 GB [swap](https://github.com/shugacoin-project/shugacoin/blob/main/doc/swap.md))
 - DISK: HDD 5 GB
 
 
@@ -37,7 +28,7 @@ Depends on Bitcoin Core
 -----------------------
 Exactly the same as dependencies of [Bitcoin Core v0.16.3](https://github.com/bitcoin/bitcoin/tree/49e34e288005a5b144a642e197b628396f5a0765).
 
-- Debian 10 (Recommended, No PPA)
+- Ubuntu 20.04 (Recommended, No PPA)
 ```bash
 sudo apt-get install -y \
 software-properties-common build-essential libtool autotools-dev automake pkg-config \
@@ -50,19 +41,6 @@ protobuf-compiler libqrencode-dev help2man
 - PPA is *only* for Ubuntu. No `libdb4.8-dev` and `libdb4.8++-dev` packages on Debian.
 
 - <details><summary>Old Ubuntu</summary>
-
-  * Ubuntu 16.04
-  ```bash
-  sudo add-apt-repository -y ppa:bitcoin/bitcoin && \
-  sudo apt-get update && \
-  sudo apt-get install -y \
-  libdb4.8-dev libdb4.8++-dev \
-  software-properties-common build-essential libtool autotools-dev automake pkg-config \
-  libssl-dev libevent-dev bsdmainutils libboost-all-dev \
-  libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a \
-  libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev \
-  protobuf-compiler libqrencode-dev help2man
-  ```
 
   * Ubuntu 18.04+
   ```bash
@@ -81,7 +59,7 @@ protobuf-compiler libqrencode-dev help2man
 
 Build
 -----
-- Debian 10+ (Recommended, No PPA)
+- Ubuntu 20.04 (Recommended, No PPA)
 ```bash
 ./autogen.sh && \
 ./contrib/install_db4.sh `pwd` && \
@@ -92,18 +70,6 @@ make check -j$(nproc)
 ```
 
 - (optional) Following can be deleted `rm -rf db4/ && rm -f db-4.8.30.NC.tar.gz`
-
-- <details><summary>Old Ubuntu</summary>
-
-  * Ubuntu 16.04+
-  ```bash
-  ./autogen.sh && \
-  ./configure && \
-  make -j$(nproc) && \
-  make check -j$(nproc)
-  ```
-</details>
-
 
 Options after Build
 -------------------
@@ -124,27 +90,7 @@ make -j$(nproc) && ./contrib/devtools/gen-manpages.sh
 - (optional) build for Windows and OSX you may need `--disable-shared` option with make.
 
 - (optional) Add seeds/nodes from [DNSSEED](https://github.com/shugacoin-project/shugacoin-seeder)  
-  https://github.com/shugacoin-project/shugacoin/tree/master-v0.16.3/contrib/seeds
-
-
-Unit Test
----------
-All Shugacoin Azula developers should execute this unit test. Some updates may break these tests in some occasions.
-
-- Test All
-```bash
-./src/test/test_shugacoin test_bitcoin --log_level=test_suite
-```
-
-- (optional) Test Partially: ie `blockencodings_tests`
-```bash
-./src/test/test_shugacoin test_bitcoin --log_level=test_suite --run_test=blockencodings_tests
-```
-
-- (optional) Test QT (GUI)
-```bash
-./src/qt/test/test_shugacoin-qt
-```
+  https://github.com/shugacoin-project/shugacoin/tree/main/contrib/seeds
 
 
 Run
@@ -171,27 +117,3 @@ CLI
 
   > 2020-09-15 19:41:34 DEBUG.LOG PRUNED at 10000063
 
-
-Known Issues
-------------
-- Transaction too large:
-  * This is a part of BTC, and hopefully will be fixed in next *Taproot* Softfork.
-- Slow update balance on wallet:
-  * This slow is a part of BTC.
-  * Update total balance *every minute (12 blocks)* interval.
-  * A workaround at this moment. [source](https://github.com/shugacoin-project/shugacoin/commit/72436c90b29844cf507895df053103f9b6840776#diff-2e3836af182cfb375329c3463ffd91f8)
-- Poor performance on ARM CPUs (32/64-Bit):
-  * No ARM optimization for Yespower yet.
-- Poor performance on 32-Bit OS:
-  * No SSE2 optimization for Yespower yet. [source](https://github.com/shugacoin-project/shugacoin/blob/d977987a83aba115d50a9130f0d7914330d1bc75/src/crypto/yespower-1.0.1/yespower-opt.c#L59)
-- Slow startup on low memory machines:
-  * Startup can take up to some hours on 1cpu 1024ram (+swap 3GB) VPS.
-  * Workaround is just increase RAM at least 2 GB.
-
-
-Release Process using GITIAN
-----------------------------
-- All Shugacoin Azula developers should do following GITIAN release process. It's the safest way to distribute binaries to people.
-- Please use GITIAN release with checking PGP signature, or compile it yourself on your own machine.
-
-https://gist.github.com/cryptozeny/3501c77750541208b9dd1a9e9719fc53
