@@ -1,6 +1,5 @@
 Shugacoin Azula
 ===================
-[![Build Status](https://travis-ci.org/shugacoin-project/shugacoin.svg?branch=master-v0.16.3)](https://travis-ci.org/shugacoin-project/shugacoin)
 ![GitHub All Releases](https://img.shields.io/github/downloads/shugacoin-project/shugacoin/total)
 
 https://shugacoin.org
