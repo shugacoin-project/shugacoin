@@ -148,13 +148,7 @@ public:
 		
         genesis = CreateGenesisBlock(1565881200, 247, 0x1f3fffff, 1, 42.94967296 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        // DEBUG - SHUGA
-         printf("***\n");
-         printf("genesis.GetPoWHash.MAIN = %s\n", genesis.GetPoWHash().ToString().c_str());
-         printf("genesis.GetHash.MAIN = %s\n", genesis.GetHash().ToString().c_str());
-         printf("genesis.hashMerkleRoot.MAIN %s\n",genesis.hashMerkleRoot.ToString().c_str());
-         printf("***\n");
-		 
+		
         assert(genesis.GetPoWHash() == uint256S("0031205acedcc69a9c18f79b84790179d68fb90588bedee6587ff701bdde04eb")); // genesis
         assert(consensus.hashGenesisBlock == uint256S("7d5eaec2dbb75f99feadfa524c78b7cabc1d8c8204f79d4f3a83381b811b0adc")); // genesis
         assert(genesis.hashMerkleRoot == uint256S("7677ce2a579cb0411d1c9e6b1e9072b8f537f1e59cb387dacac2daac56e150b0"));
@@ -164,6 +158,7 @@ public:
         // This is fine at runtime as we'll fall back to using them as a oneshot if they dont support the
         // service bits we want, but we should get them updated to support all service bits wanted by any
         // release ASAP to avoid it where possible.
+		//vSeeds.emplace_back("1seed.shugacoin.org");
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,63);  // legacy: starting with S (upper)
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,125); // p2sh-segwit: starting with s (lower)
