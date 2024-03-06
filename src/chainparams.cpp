@@ -85,7 +85,7 @@ public:
 
         consensus.BIP16Height = 0;  // always on
         consensus.BIP34Height = 10; // getblockhash 10
-        consensus.BIP34Hash = uint256S("0x00"); // getblockhash 10
+        consensus.BIP34Hash = uint256S("fd9da19eecaac064c6a0b44690e726c6f1c25fb3c7ad9842b24c03e04c1de8b1"); // getblockhash 10
         consensus.BIP65Height = 0;  // always on
         consensus.BIP66Height = 0;  // always on
 
@@ -126,13 +126,13 @@ public:
 
         // The best chain should have at least this much work.
         // TODO.SHUGA.UPDATE
-        // getblockhash 1 && "chainwork"
-        consensus.nMinimumChainWork = uint256S("0x00");
+        // getblockhash 10024 && "chainwork"
+        consensus.nMinimumChainWork = uint256S("0000000000000000000000000000000000000000000000000000000000a5b7c6");
 
         // By default assume that the signatures in ancestors of this block are valid.
         // TODO.SHUGA.UPDATE
-        // getblockhash 1 && "hash"
-        consensus.defaultAssumeValid = uint256S("7d5eaec2dbb75f99feadfa524c78b7cabc1d8c8204f79d4f3a83381b811b0adc");
+        // getblockhash 10024 && "hash"
+        consensus.defaultAssumeValid = uint256S("cfaf02ed8f02503399f8383a09ebde9b9463f192217f63a1327776ac4b90abe2");
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -176,15 +176,16 @@ public:
 
         checkpointData = {
             {
-                {0, uint256S("7d5eaec2dbb75f99feadfa524c78b7cabc1d8c8204f79d4f3a83381b811b0adc")}
+                {0, uint256S("7d5eaec2dbb75f99feadfa524c78b7cabc1d8c8204f79d4f3a83381b811b0adc")},
+                {10024, uint256S("cfaf02ed8f02503399f8383a09ebde9b9463f192217f63a1327776ac4b90abe2")},
             }
         };
 
         // TODO.SHUGA.UPDATE
         chainTxData = ChainTxData{
-            /* nTime    */ 0,
-            /* nTxCount */ 0,
-            /* dTxRate  */ 0
+            /* nTime    */ 1709645219,
+            /* nTxCount */ 10032,
+            /* dTxRate  */ 0.02936191265196912
         };
     }
 };
